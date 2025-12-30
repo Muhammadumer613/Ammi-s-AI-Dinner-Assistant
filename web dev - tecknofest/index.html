@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ammi’s AI Dinner Assistant</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f4f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 25px 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        p.subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+
+        /* Ingredient Input */
+        .input-section {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        input[type="text"], select {
+            flex: 1;
+            padding: 10px 12px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        button {
+            padding: 10px 18px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background-color: #2ecc71;
+        }
+
+        /* Ingredient List */
+        .ingredient-list {
+            margin-bottom: 20px;
+        }
+
+        .ingredient-list li {
+            display: inline-block;
+            background-color: #ecf0f1;
+            padding: 6px 12px;
+            margin: 5px 5px 0 0;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        /* Meals Section */
+        #meals {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .meal-card {
+            background-color: #f1f9f4;
+            border-left: 5px solid #27ae60;
+            padding: 12px 15px;
+            border-radius: 8px;
+            font-size: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>🍛 Ammi’s AI Dinner Assistant</h1>
+    <p class="subtitle">Aaj khanay mein kya banaun?</p>
+
+    <!-- Ingredient Input -->
+    <h3>🧺 Add Ingredients</h3>
+    <div class="input-section">
+        <input type="text" id="ingredientInput" placeholder="e.g. chicken | masoor daal | chicken palao">
+        
+        <button onclick="addIngredient()">Add</button>
+    </div>
+
+    <!-- Ingredient List -->
+    <ul id="ingredientList" class="ingredient-list"></ul>
+
+    <!-- Suggestion Button -->
+    <div style="text-align:center; margin-top:10px;">
+        <button onclick="suggestMeals()">🍽 Aaj kya pakaun?</button>
+    </div>
+
+    <!-- Meal Suggestions -->
+    <h3 style="margin-top:25px;">🍽 Suggested Meals</h3>
+
+    <div id="meals"></div>
+
+</div>
+
+<script>
+    let ingredients = [];
+
+    function addIngredient() {
+        const input = document.getElementById("ingredientInput");
+        const value = input.value.trim().toLowerCase();
+        if (value === "") return;
+
+        ingredients.push(value);
+        input.value = "";
+        displayIngredients();
+    }
+
+    function displayIngredients() {
+        const list = document.getElementById("ingredientList");
+        list.innerHTML = "";
+        ingredients.forEach(item => {
+            const li = document.createElement("li");
+            li.textContent = item;
+            list.appendChild(li);
+        });
+    }
+
+    function suggestMeals() {
+        const mealsDiv = document.getElementById("meals");
+        mealsDiv.innerHTML = "";
+
+        let meals = [];
+
+        if (ingredients.includes("chicken, tomatoes, onion, garlic, ginger, green chilies, red chili powder, turmeric, coriander powder, garam masala, salt, oil, fresh coriander, lemon.")) meals.push("🍗 Chicken Karahi");
+        if (ingredients.includes("daal, Masoor daal, water, onion, tomatoes, garlic, ginger, green chili, turmeric, red chili powder, cumin seeds, salt, oil or ghee, fresh coriander.")) meals.push("🍲 Masoor Daal");
+        if (ingredients.includes("rice, Basmati rice, mixed vegetables (carrot, peas, beans, capsicum), onion, garlic, ginger, green chilies, whole spices (cumin, cardamom, cloves, cinnamon), salt, oil or ghee, fresh coriander, mint leaves.")) meals.push("🍚 Vegetable Pulao");
+
+        if (meals.length === 0) {
+            meals.push("😅 Ingredients kam hain, simple sabzi bana lo");
+        }
+
+        meals.forEach(meal => {
+            const div = document.createElement("div");
+            div.className = "meal-card";
+            div.textContent = meal;
+            mealsDiv.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>
